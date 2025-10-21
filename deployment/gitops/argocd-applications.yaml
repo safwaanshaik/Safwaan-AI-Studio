@@ -1,0 +1,218 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: safwaan-backend
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/your-org/safwaan-ai-studio
+    targetRevision: HEAD
+    path: deployment/kubernetes
+    kustomize:
+      commonLabels:
+        app.kubernetes.io/managed-by: argocd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: safwaan
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+    - PrunePropagationPolicy=foreground
+    - PruneLast=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: safwaan-frontend
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/your-org/safwaan-ai-studio
+    targetRevision: HEAD
+    path: frontend
+    kustomize:
+      commonLabels:
+        app.kubernetes.io/managed-by: argocd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: safwaan
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: safwaan-workflow
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/your-org/safwaan-ai-studio
+    targetRevision: HEAD
+    path: deployment/workflow
+    kustomize:
+      commonLabels:
+        app.kubernetes.io/managed-by: argocd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: safwaan
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: safwaan-monitoring
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/your-org/safwaan-ai-studio
+    targetRevision: HEAD
+    path: deployment/kubernetes/monitoring
+    kustomize:
+      commonLabels:
+        app.kubernetes.io/managed-by: argocd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: safwaan-database
+  namespace: argocd
+spec:
+  project: default
+  source:
+    helm:
+      repoURL: https://charts.bitnami.com/bitnami
+      chart: postgresql
+      version: 12.1.0
+      values: |
+        global:
+          postgresql:
+            auth:
+              postgresPassword: "safwaan-postgres-password"
+              username: "safwaan"
+              password: "safwaan-db-password"
+              database: "safwaan"
+        primary:
+          persistence:
+            enabled: true
+            size: 50Gi
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 250m
+            limits:
+              memory: 512Mi
+              cpu: 500m
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: safwaan
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: safwaan-redis
+  namespace: argocd
+spec:
+  project: default
+  source:
+    helm:
+      repoURL: https://charts.bitnami.com/bitnami
+      chart: redis
+      version: 17.3.0
+      values: |
+        auth:
+          password: "safwaan-redis-password"
+        master:
+          persistence:
+            enabled: true
+            size: 10Gi
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+              cpu: 200m
+        replica:
+          replicaCount: 1
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+              cpu: 200m
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: safwaan
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: safwaan-minio
+  namespace: argocd
+spec:
+  project: default
+  source:
+    helm:
+      repoURL: https://charts.min.io/
+      chart: minio
+      version: 5.0.0
+      values: |
+        rootUser: "safwaan"
+        rootPassword: "safwaan-minio-password"
+        persistence:
+          enabled: true
+          size: 100Gi
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 100m
+          limits:
+            memory: 512Mi
+            cpu: 500m
+        service:
+          type: ClusterIP
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: safwaan
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

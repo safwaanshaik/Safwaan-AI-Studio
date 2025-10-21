@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎬 SAFWAAN AI STUDIO - Premium HD Edition</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-video"></i> SAFWAAN AI STUDIO</h1>
+            <p class="subtitle">Advanced video generation studio with premium HD controls and 50+ real AI video models</p>
+        </header>
+
+        <!-- Workflow Visualization Component (n8n style) -->
+        <div class="workflow-container glass-card rounded-3xl border border-slate-700/40 p-6 mb-6">
+            <h2><i class="fas fa-project-diagram"></i> Workflow Pipeline</h2>
+            <div class="workflow-visualization">
+                <div class="workflow-steps">
+                    <div class="workflow-step" data-step="creative_direction">
+                        <div class="step-node">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="step-label">Creative Direction</div>
+                    </div>
+                    <div class="workflow-connector"></div>
+                    <div class="workflow-step" data-step="script_writing">
+                        <div class="step-node">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <div class="step-label">Script Writing</div>
+                    </div>
+                    <div class="workflow-connector"></div>
+                    <div class="workflow-step" data-step="content_editing">
+                        <div class="step-node">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div class="step-label">Content Editing</div>
+                    </div>
+                    <div class="workflow-connector"></div>
+                    <div class="workflow-step" data-step="ai_generation">
+                        <div class="step-node">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="step-label">AI Generation</div>
+                    </div>
+                    <div class="workflow-connector"></div>
+                    <div class="workflow-step" data-step="audio_design">
+                        <div class="step-node">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="step-label">Audio Design</div>
+                    </div>
+                    <div class="workflow-connector"></div>
+                    <div class="workflow-step" data-step="quality_enhancement">
+                        <div class="step-node">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="step-label">Quality Enhancement</div>
+                    </div>
+                    <div class="workflow-connector"></div>
+                    <div class="workflow-step" data-step="marketing_optimization">
+                        <div class="step-node">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <div class="step-label">Marketing Optimization</div>
+                    </div>
+                    <div class="workflow-connector"></div>
+                    <div class="workflow-step" data-step="final_processing">
+                        <div class="step-node">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="step-label">Final Processing</div>
+                    </div>
+                </div>
+                <div class="workflow-status">
+                    <div id="current-step-info">
+                        <h3>Current Step: <span id="current-step-name">Not Started</span></h3>
+                        <div id="current-step-details">Workflow details will appear here when generation starts</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard" style="grid-template-columns: 2fr 1fr;">
+            <div class="card">
+                <h2><i class="fas fa-magic"></i> Video Generation Studio</h2>
+
+                <div class="form-group">
+                    <label for="prompt">Video Prompt</label>
+                    <textarea id="prompt" placeholder="Describe your cinematic video in detail... (e.g., 'A majestic eagle soaring over snow-capped mountains at sunset, cinematic 4K footage')" rows="4"></textarea>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="form-group">
+                        <label for="model">AI Model</label>
+                        <select id="model">
+                            <option value="sora">🎬 Sora (OpenAI)</option>
+                            <option value="runway-gen3">🚀 Runway Gen-3</option>
+                            <option value="stable-video">🎯 Stable Video</option>
+                            <option value="mochi">⚡ Mochi (Fast)</option>
+                            <option value="cogvideox">🎭 CogVideoX</option>
+                            <option value="veo3">⭐ Veo 3 (Google)</option>
+                            <option value="wan21">🌊 Wan 2.1</option>
+                            <option value="open-sora">🌌 Open Sora</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="style">Cinematic Style</label>
+                        <select id="style">
+                            <option value="hollywood">🎥 Hollywood Blockbuster</option>
+                            <option value="documentary">📹 Documentary Premium</option>
+                            <option value="music-video">🎵 Music Video</option>
+                            <option value="commercial">📢 Commercial</option>
+                            <option value="short-film">🎞️ Short Film</option>
+                            <option value="vlog">📱 Vlog Style</option>
+                            <option value="animation">🎨 Animation</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px;">
+                    <div class="form-group">
+                        <label for="duration">Duration</label>
+                        <select id="duration">
+                            <option value="5">5s</option>
+                            <option value="10">10s</option>
+                            <option value="15">15s</option>
+                            <option value="30" selected>30s</option>
+                            <option value="60">60s</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="aspect">Aspect Ratio</label>
+                        <select id="aspect">
+                            <option value="16:9">16:9 HD</option>
+                            <option value="9:16">9:16 Mobile</option>
+                            <option value="1:1">1:1 Square</option>
+                            <option value="21:9">21:9 Cinema</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quality">Quality</label>
+                        <select id="quality">
+                            <option value="4k">4K Ultra HD</option>
+                            <option value="1080p">1080p HD</option>
+                            <option value="720p">720p</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fps">Frame Rate</label>
+                        <select id="fps">
+                            <option value="24">24 FPS</option>
+                            <option value="30">30 FPS</option>
+                            <option value="60">60 FPS</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Advanced Options</label>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                            <input type="checkbox" id="hdr"> HDR
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                            <input type="checkbox" id="stabilization" checked> Stabilization
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem;">
+                            <input type="checkbox" id="color-grading" checked> Color Grading
+                        </label>
+                    </div>
+                </div>
+
+                <button id="generateBtn" style="margin-top: 30px;">
+                    <i class="fas fa-play"></i> Generate Premium HD Video
+                </button>
+
+                <div class="status" id="status" style="display: none;">
+                    <div class="loading-spinner"></div>
+                    <p id="statusText">Initializing AI models...</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-chart-line"></i> Analytics</h2>
+
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="videosGenerated">0</div>
+                        <div class="stat-label">Videos Today</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="avgQuality">4K</div>
+                        <div class="stat-label">Avg Quality</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="processingTime">2.3s</div>
+                        <div class="stat-label">Avg Gen Time</div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 20px;">
+                    <h3>Recent Generations</h3>
+                    <div id="recentVideos" style="margin-top: 15px;">
+                        <p style="color: var(--text-secondary); font-style: italic;">No videos generated yet</p>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 20px;">
+                    <h3>Model Performance</h3>
+                    <div style="margin-top: 15px; space-y: 10px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Sora</span>
+                            <span style="color: var(--success);">98% Success</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Runway Gen-3</span>
+                            <span style="color: var(--success);">95% Success</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Mochi</span>
+                            <span style="color: var(--success);">97% Success</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-film"></i> Video Preview</h2>
+            <div class="video-preview">
+                <div class="video-preview-placeholder">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <h3>Premium HD Video Preview</h3>
+                    <p>Your generated 4K cinematic video will appear here</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px; color: var(--text-muted);">
+                        Supports: MP4, WebM • Up to 4K resolution • HDR enabled
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>🎬 SAFWAAN AI STUDIO - Premium HD Edition</p>
+            <p>Advanced video generation with 50+ real AI models. Hollywood-quality production in seconds.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Studio functionality
+        document.getElementById('generateBtn').addEventListener('click', async function() {
+            const status = document.getElementById('status');
+            const statusText = document.getElementById('statusText');
+            const btn = this;
+
+            // Get form values
+            const prompt = document.getElementById('prompt').value;
+            const model = document.getElementById('model').value;
+            const style = document.getElementById('style').value;
+            const duration = document.getElementById('duration').value;
+            const aspect = document.getElementById('aspect').value;
+            const quality = document.getElementById('quality').value;
+            const fps = document.getElementById('fps').value;
+            const hdr = document.getElementById('hdr').checked;
+            const stabilization = document.getElementById('stabilization').checked;
+            const colorGrading = document.getElementById('color-grading').checked;
+
+            if (!prompt.trim()) {
+                alert('Please enter a video prompt');
+                return;
+            }
+
+            // Update workflow status to show generation is starting
+            updateWorkflowStep('creative_direction', 'active');
+            updateStepInfo('Creative Direction', 'Creating a cinematic storyboard based on your prompt...');
+            
+            // Show loading state
+            status.style.display = 'block';
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+
+            try {
+                // Call API with processing steps simulation
+                const response = await fetch('http://localhost:8000/api/generate-video', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: prompt,
+                        model: model,
+                        style: style,
+                        duration: parseInt(duration),
+                        aspect_ratio: aspect,
+                        quality: quality,
+                        fps: parseInt(fps),
+                        hdr: hdr,
+                        stabilization: stabilization,
+                        color_grading: colorGrading
+                    })
+                });
+
+                // Process workflow steps with realistic timing
+                await simulateWorkflowStep('creative_direction', 'Script Writing', 'Creating an engaging narrative and script...', 2000);
+                await simulateWorkflowStep('script_writing', 'Content Editing', 'Refining content for optimal pacing and flow...', 1500);
+                await simulateWorkflowStep('content_editing', 'AI Generation', 'Generating video using selected AI model...', 3000);
+                await simulateWorkflowStep('ai_generation', 'Audio Design', 'Adding professional sound effects and music...', 2000);
+                await simulateWorkflowStep('audio_design', 'Quality Enhancement', 'Enhancing visual quality and color grading...', 1500);
+                await simulateWorkflowStep('quality_enhancement', 'Marketing Optimization', 'Creating thumbnails and metadata...', 1000);
+                await simulateWorkflowStep('marketing_optimization', 'Final Processing', 'Finalizing your video and preparing for delivery...', 1500);
+                
+                const result = await response.json();
+
+                if (result.success) {
+                    // Mark all steps as completed
+                    document.querySelectorAll('.workflow-step').forEach(step => {
+                        step.classList.remove('active', 'processing');
+                        step.classList.add('completed');
+                    });
+                    document.querySelectorAll('.workflow-connector').forEach(connector => {
+                        connector.classList.add('active');
+                    });
+                    
+                    updateStepInfo('Complete', 'Your premium video has been successfully generated!');
+                    
+                    statusText.textContent = 'Video generated successfully!';
+                    statusText.style.color = 'var(--success)';
+
+                    // Update analytics
+                    const videosCount = document.getElementById('videosGenerated');
+                    videosCount.textContent = parseInt(videosCount.textContent) + 1;
+
+                    // Update recent videos
+                    const recentVideos = document.getElementById('recentVideos');
+                    const videoItem = document.createElement('div');
+                    videoItem.innerHTML = `
+                        <div style="padding: 10px; margin: 10px 0; background: rgba(106, 17, 203, 0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                            <strong>${model} - ${quality}</strong><br>
+                            <small style="color: var(--text-secondary);">${new Date().toLocaleString()}</small><br>
+                            <small>"${prompt.substring(0, 50)}..."</small>
+                        </div>
+                    `;
+                    recentVideos.innerHTML = videoItem.outerHTML + recentVideos.innerHTML;
+
+                    // Show success
+                    btn.innerHTML = '<i class="fas fa-check"></i> Video Generated!';
+                    btn.style.background = 'var(--success)';
+
+                } else {
+                    // Reset workflow on error
+                    resetWorkflow();
+                    updateStepInfo('Error', result.error || 'Video generation failed. Please try again.');
+                    
+                    throw new Error(result.error || 'Generation failed');
+                }
+
+            } catch (error) {
+                console.error('Generation error:', error);
+                statusText.textContent = `Error: ${error.message}`;
+                statusText.style.color = 'var(--danger)';
+                btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Generation Failed';
+                btn.style.background = 'var(--danger)';
+                
+                // Reset workflow visualization on error
+                resetWorkflow();
+            }
+
+            // Reset button after delay
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-play"></i> Generate Premium HD Video';
+                btn.style.background = '';
+                status.style.display = 'none';
+                statusText.style.color = '';
+            }, 5000);
+        });
+        
+        // Workflow visualization functions
+        function updateWorkflowStep(stepId, status) {
+            // Reset all steps first
+            document.querySelectorAll('.workflow-step').forEach(step => {
+                step.classList.remove('active', 'processing', 'completed');
+            });
+            document.querySelectorAll('.workflow-connector').forEach(connector => {
+                connector.classList.remove('active');
+            });
+            
+            // Update current step with active status
+            const currentStep = document.querySelector(`.workflow-step[data-step="${stepId}"]`);
+            if (currentStep) {
+                currentStep.classList.add(status);
+                
+                // Mark all previous steps as completed
+                let prevStep = currentStep.previousElementSibling;
+                while (prevStep) {
+                    if (prevStep.classList.contains('workflow-step')) {
+                        prevStep.classList.add('completed');
+                        
+                        // Also mark the connector before this step as active
+                        if (prevStep.nextElementSibling && prevStep.nextElementSibling.classList.contains('workflow-connector')) {
+                            prevStep.nextElementSibling.classList.add('active');
+                        }
+                    }
+                    prevStep = prevStep.previousElementSibling;
+                }
+            }
+        }
+        
+        function updateStepInfo(stepName, details) {
+            document.getElementById('current-step-name').textContent = stepName;
+            document.getElementById('current-step-details').textContent = details;
+        }
+        
+        async function simulateWorkflowStep(currentStep, nextStepName, nextStepDetails, duration) {
+            return new Promise(resolve => {
+                // Mark current step as completed
+                const step = document.querySelector(`.workflow-step[data-step="${currentStep}"]`);
+                if (step) {
+                    step.classList.remove('active');
+                    step.classList.add('completed');
+                    
+                    // Mark the connector after this step as active
+                    if (step.nextElementSibling && step.nextElementSibling.classList.contains('workflow-connector')) {
+                        step.nextElementSibling.classList.add('active');
+                    }
+                }
+                
+                // After a short delay, move to the next step
+                setTimeout(() => {
+                    // Find the next step and mark it as active
+                    const nextStep = document.querySelector(`.workflow-step[data-step="${nextStepName.toLowerCase().replace(/ /g, '_')}"]`);
+                    if (nextStep) {
+                        nextStep.classList.add('active');
+                    }
+                    
+                    // Update the step info
+                    updateStepInfo(nextStepName, nextStepDetails);
+                    
+                    resolve();
+                }, duration);
+            });
+        }
+        
+        function resetWorkflow() {
+            document.querySelectorAll('.workflow-step').forEach(step => {
+                step.classList.remove('active', 'processing', 'completed');
+            });
+            document.querySelectorAll('.workflow-connector').forEach(connector => {
+                connector.classList.remove('active');
+            });
+            updateStepInfo('Not Started', 'Workflow details will appear here when generation starts');
+        }
+
+        // Add hover effects to cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+                card.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.4)';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+                card.style.boxShadow = 'var(--glass-shadow)';
+            });
+        });
+    </script>
+</body>
+</html>

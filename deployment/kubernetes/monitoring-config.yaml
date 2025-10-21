@@ -1,0 +1,280 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+
+    rule_files:
+      - /etc/prometheus/prometheus.rules
+
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets:
+          - alertmanager:9093
+
+    scrape_configs:
+    - job_name: 'safwaan-backend'
+      static_configs:
+      - targets: ['safwaan-backend-service.safwaan.svc.cluster.local:8000']
+      metrics_path: '/metrics'
+      scrape_interval: 10s
+
+    - job_name: 'safwaan-frontend'
+      static_configs:
+      - targets: ['safwaan-frontend-service.safwaan.svc.cluster.local:3000']
+      metrics_path: '/metrics'
+      scrape_interval: 30s
+      
+    - job_name: 'safwaan-workflow'
+      static_configs:
+      - targets: ['safwaan-workflow-service.safwaan.svc.cluster.local:5678']
+      metrics_path: '/metrics'
+      scrape_interval: 15s
+
+    - job_name: 'kubernetes-pods'
+      kubernetes_sd_configs:
+      - role: pod
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        target_label: __address__
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboards
+  namespace: monitoring
+data:
+  safwaan-dashboard.json: |
+    {
+      "dashboard": {
+        "title": "Safwaan AI Studio Performance",
+        "tags": ["safwaan", "ai", "video", "studio"],
+        "timezone": "browser",
+        "panels": [
+          {
+            "title": "Video Generation Rate",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(safwaan_videos_generated_total[5m])",
+                "legendFormat": "Videos/min"
+              }
+            ]
+          },
+          {
+            "title": "API Response Time",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.95, rate(safwaan_api_request_duration_seconds_bucket[5m]))",
+                "legendFormat": "95th percentile"
+              }
+            ]
+          },
+          {
+            "title": "Workflow Executions",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(safwaan_workflow_executions_total[5m])",
+                "legendFormat": "Workflows/min"
+              }
+            ]
+          },
+          {
+            "title": "Worker Queue Length",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "celery_active_tasks",
+                "legendFormat": "Active tasks"
+              }
+            ]
+          },
+          {
+            "title": "System Resources",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "100 - (avg by(instance) (irate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+                "legendFormat": "CPU Usage %"
+              },
+              {
+                "expr": "(1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100",
+                "legendFormat": "Memory Usage %"
+              }
+            ]
+          }
+        ],
+        "time": {
+          "from": "now-1h",
+          "to": "now"
+        },
+        "refresh": "30s"
+      }
+    }
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      serviceAccountName: prometheus
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.49.1
+        ports:
+        - containerPort: 9090
+        volumeMounts:
+        - name: config
+          mountPath: /etc/prometheus
+        - name: storage
+          mountPath: /prometheus
+      volumes:
+      - name: config
+        configMap:
+          name: prometheus-config
+      - name: storage
+        emptyDir: {}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: grafana/grafana:10.3.1
+        ports:
+        - containerPort: 3000
+        env:
+        - name: GF_SECURITY_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: grafana-secret
+              key: admin-password
+        volumeMounts:
+        - name: dashboards
+          mountPath: /var/lib/grafana/dashboards
+        - name: config
+          mountPath: /etc/grafana/provisioning/dashboards
+      volumes:
+      - name: dashboards
+        configMap:
+          name: grafana-dashboards
+      - name: config
+        configMap:
+          name: grafana-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-service
+  namespace: monitoring
+spec:
+  selector:
+    app: prometheus
+  ports:
+  - port: 9090
+    targetPort: 9090
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service
+  namespace: monitoring
+spec:
+  selector:
+    app: grafana
+  ports:
+  - port: 3000
+    targetPort: 3000
+  type: ClusterIP
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: safwaan-alerts
+  namespace: monitoring
+spec:
+  groups:
+  - name: safwaan
+    rules:
+    - alert: HighErrorRate
+      expr: rate(safwaan_api_errors_total[5m]) / rate(safwaan_api_requests_total[5m]) > 0.05
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High API error rate detected"
+        description: "API error rate is {{ $value }}%"
+
+    - alert: WorkerQueueBacklog
+      expr: celery_active_tasks > 15
+      for: 10m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Worker queue backlog detected"
+        description: "{{ $value }} active tasks in queue"
+
+    - alert: WorkflowFailureRate
+      expr: rate(safwaan_workflow_failures_total[5m]) / rate(safwaan_workflow_executions_total[5m]) > 0.1
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High workflow failure rate detected"
+        description: "Workflow failure rate is {{ $value }}%"
+
+    - alert: HighMemoryUsage
+      expr: (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) > 0.9
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "High memory usage detected"
+        description: "Memory usage is {{ $value }}%"
