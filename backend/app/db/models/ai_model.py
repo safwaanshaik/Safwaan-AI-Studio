@@ -81,6 +81,35 @@ class VideoGenerationStatus(str, enum.Enum):
     TIMEOUT = "TIMEOUT"         # Request timed out
 
 
+class AudioTrackType(str, enum.Enum):
+    """Types of audio tracks for video generation"""
+    NONE = "NONE"
+    BACKGROUND_MUSIC = "BACKGROUND_MUSIC"
+    VOICEOVER = "VOICEOVER"
+    SOUND_EFFECTS = "SOUND_EFFECTS"
+    AMBIENT = "AMBIENT"
+
+
+class TextOverlayPosition(str, enum.Enum):
+    """Positions for text overlays in video"""
+    TOP = "TOP"
+    BOTTOM = "BOTTOM"
+    CENTER = "CENTER"
+    TOP_LEFT = "TOP_LEFT"
+    TOP_RIGHT = "TOP_RIGHT"
+    BOTTOM_LEFT = "BOTTOM_LEFT"
+    BOTTOM_RIGHT = "BOTTOM_RIGHT"
+
+
+class SceneTransitionType(str, enum.Enum):
+    """Types of transitions between video scenes"""
+    CUT = "CUT"
+    FADE = "FADE"
+    DISSOLVE = "DISSOLVE"
+    WIPE = "WIPE"
+    SLIDE = "SLIDE"
+
+
 # Association tables
 ai_model_quality_tier_assoc = Table(
     'ai_model_quality_tier_assoc', 
@@ -442,6 +471,26 @@ class VideoGeneration(Base):
     guidance_scale = Column(Float, nullable=True)
     motion_strength = Column(Float, nullable=True)
     custom_parameters = Column(MutableDict.as_mutable(JSONB), default=dict)
+
+    # Audio parameters
+    audio_track_type = Column(Enum(AudioTrackType), default=AudioTrackType.NONE, nullable=False)
+    audio_prompt = Column(Text, nullable=True)
+    background_music_url = Column(String(512), nullable=True)
+    voiceover_text = Column(Text, nullable=True)
+    voice_id = Column(String(100), nullable=True) # e.g., "standard-male", "neural-female"
+    
+    # Text overlay parameters
+    text_overlay_content = Column(Text, nullable=True)
+    text_overlay_position = Column(Enum(TextOverlayPosition), nullable=True)
+    text_overlay_color = Column(String(50), nullable=True) # e.g., "#FFFFFF", "red"
+    text_overlay_font = Column(String(100), nullable=True)
+    text_overlay_size = Column(Integer, nullable=True)
+
+    # Scene composition parameters
+    scene_count = Column(Integer, default=1, nullable=False)
+    scene_prompts = Column(MutableDict.as_mutable(JSONB), default=dict) # { "scene1": "prompt", "scene2": "prompt" }
+    scene_transitions = Column(Enum(SceneTransitionType), default=SceneTransitionType.CUT, nullable=False)
+    storyboard_data = Column(MutableDict.as_mutable(JSONB), default=dict) # Detailed storyboard JSON
     
     # File paths and URLs
     video_path = Column(String(512), nullable=True)

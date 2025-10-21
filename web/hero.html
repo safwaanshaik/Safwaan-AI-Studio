@@ -15,6 +15,20 @@
             --cyan-500: rgb(6, 182, 212);
             --purple-500: rgb(168, 85, 247);
             --pink-500: rgb(236, 72, 153);
+            --emerald-500: rgb(16, 185, 129);
+            --orange-500: rgb(249, 115, 22);
+            --indigo-500: rgb(99, 102, 241);
+            --red-500: rgb(239, 68, 68);
+            --yellow-500: rgb(234, 179, 8);
+        }
+
+        /* Advanced Animation Variables */
+        :root {
+            --animation-speed-fast: 0.2s;
+            --animation-speed-normal: 0.3s;
+            --animation-speed-slow: 0.5s;
+            --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+            --animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
         
         .absolute {
@@ -275,32 +289,55 @@
             filter: blur(80px);
             opacity: 0.3;
         }
-        
+
         .glow-1 {
             top: 20%;
             left: 15%;
             width: 300px;
             height: 300px;
             background: rgba(6, 182, 212, 0.3);
-            animation: float 15s ease-in-out infinite;
+            animation: float 15s ease-in-out infinite, pulse-glow 4s ease-in-out infinite;
         }
-        
+
         .glow-2 {
             bottom: 10%;
             right: 20%;
             width: 400px;
             height: 400px;
             background: rgba(168, 85, 247, 0.3);
-            animation: float 18s ease-in-out infinite 1s;
+            animation: float 18s ease-in-out infinite 1s, pulse-glow 5s ease-in-out infinite 1s;
         }
-        
+
         .glow-3 {
             top: 40%;
             right: 10%;
             width: 200px;
             height: 200px;
             background: rgba(236, 72, 153, 0.3);
-            animation: float 12s ease-in-out infinite 0.5s;
+            animation: float 12s ease-in-out infinite 0.5s, pulse-glow 3s ease-in-out infinite 0.5s;
+        }
+
+        .glow-4 {
+            top: 60%;
+            left: 5%;
+            width: 250px;
+            height: 250px;
+            background: rgba(16, 185, 129, 0.2);
+            animation: float 20s ease-in-out infinite 2s, pulse-glow 6s ease-in-out infinite 2s;
+        }
+
+        .glow-5 {
+            bottom: 30%;
+            left: 25%;
+            width: 180px;
+            height: 180px;
+            background: rgba(249, 115, 22, 0.25);
+            animation: float 14s ease-in-out infinite 3s, pulse-glow 4.5s ease-in-out infinite 3s;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.1); }
         }
         
         @keyframes float {
@@ -631,6 +668,185 @@
         .notification-message {
             color: rgba(248, 250, 252, 0.7);
         }
+
+        /* Advanced Particle Effects */
+        .particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, rgba(6, 182, 212, 0.6), rgba(168, 85, 247, 0.6));
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+            animation: particle-float linear infinite;
+        }
+
+        .particle-1 {
+            width: 4px;
+            height: 4px;
+            top: 20%;
+            left: 10%;
+            animation-duration: 20s;
+            animation-delay: 0s;
+        }
+
+        .particle-2 {
+            width: 6px;
+            height: 6px;
+            top: 60%;
+            left: 80%;
+            animation-duration: 25s;
+            animation-delay: 2s;
+        }
+
+        .particle-3 {
+            width: 3px;
+            height: 3px;
+            top: 40%;
+            left: 60%;
+            animation-duration: 18s;
+            animation-delay: 4s;
+        }
+
+        .particle-4 {
+            width: 5px;
+            height: 5px;
+            top: 80%;
+            left: 30%;
+            animation-duration: 22s;
+            animation-delay: 1s;
+        }
+
+        .particle-5 {
+            width: 4px;
+            height: 4px;
+            top: 10%;
+            left: 70%;
+            animation-duration: 28s;
+            animation-delay: 3s;
+        }
+
+        .particle-6 {
+            width: 7px;
+            height: 7px;
+            top: 70%;
+            left: 5%;
+            animation-duration: 24s;
+            animation-delay: 5s;
+        }
+
+        .particle-7 {
+            width: 3px;
+            height: 3px;
+            top: 30%;
+            left: 90%;
+            animation-duration: 26s;
+            animation-delay: 1.5s;
+        }
+
+        .particle-8 {
+            width: 5px;
+            height: 5px;
+            top: 50%;
+            left: 40%;
+            animation-duration: 21s;
+            animation-delay: 2.5s;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(0px) translateX(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Enhanced Hover Effects */
+        .card-hover-lift {
+            transition: all var(--animation-speed-normal) var(--animation-easing);
+        }
+
+        .card-hover-lift:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Typing Animation */
+        .typing-animation {
+            border-right: 2px solid #06b6d4;
+            animation: blink-caret 1s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #06b6d4; }
+        }
+
+        /* Gradient Text Animation */
+        .gradient-text-animated {
+            background: linear-gradient(-45deg, #06b6d4, #a855f7, #ec4899, #10b981);
+            background-size: 400% 400%;
+            animation: gradient-flow 4s ease infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes gradient-flow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Pulse Animation */
+        .pulse-gentle {
+            animation: pulse-gentle 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-gentle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Stagger Animation */
+        .stagger-fade-in {
+            animation: fade-in-up 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .stagger-fade-in:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-fade-in:nth-child(2) { animation-delay: 0.2s; }
+        .stagger-fade-in:nth-child(3) { animation-delay: 0.3s; }
+        .stagger-fade-in:nth-child(4) { animation-delay: 0.4s; }
+        .stagger-fade-in:nth-child(5) { animation-delay: 0.5s; }
+        .stagger-fade-in:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -641,177 +857,368 @@
                 <div class="bg-glow glow-1"></div>
                 <div class="bg-glow glow-2"></div>
                 <div class="bg-glow glow-3"></div>
+                <div class="bg-glow glow-4"></div>
+                <div class="bg-glow glow-5"></div>
+
+                <!-- Animated Particles -->
+                <div class="particles-container">
+                    <div class="particle particle-1"></div>
+                    <div class="particle particle-2"></div>
+                    <div class="particle particle-3"></div>
+                    <div class="particle particle-4"></div>
+                    <div class="particle particle-5"></div>
+                    <div class="particle particle-6"></div>
+                    <div class="particle particle-7"></div>
+                    <div class="particle particle-8"></div>
+                </div>
             </div>
             
             <div class="hero-content">
                 <div class="hero-headline">
-                    <h1 class="hero-title">SAFWAAN AI STUDIO</h1>
+                    <h1 class="hero-title gradient-text-animated">CINEMATRIX AI 5.0</h1>
                     <p class="hero-subtitle">
-                        The world's most advanced autonomous video generation platform.
+                        <span class="typing-animation">The world's most advanced autonomous video generation platform.</span>
+                        <br><br>
                         Automatically detects trending topics, creates viral videos, and dominates social media algorithms with real AI video models.
+                        <strong class="gradient-text-animated">50+ AI models • Hollywood-quality • Zero manual intervention</strong>
                     </p>
                     
-                    <div class="flex justify-center gap-3 mt-8">
-                        <a href="#trending" class="inline-flex items-center gap-3 glass-morphism glass-hover rounded-full px-6 py-3 border border-cyan-500/30 neon-border">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Explore Trending Topics</span>
+                    <div class="flex justify-center gap-4 mt-8 flex-wrap">
+                        <a href="#trending" class="inline-flex items-center gap-3 glass-morphism glass-hover rounded-full px-8 py-4 border border-cyan-500/30 neon-border card-hover-lift pulse-gentle">
+                            <i class="fas fa-chart-line text-cyan-400"></i>
+                            <span class="font-semibold">Explore Trending Topics</span>
                         </a>
-                        
-                        <a href="studio.html" class="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary hover:bg-primary/90 py-2 glass-button h-14 px-8 rounded-2xl text-base font-medium bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white border-0 shadow-lg hover:shadow-cyan-500/50">
-                            <i class="fas fa-video"></i>
-                            <span>Go to Studio</span>
+
+                        <a href="studio.html" class="inline-flex items-center justify-center gap-3 whitespace-nowrap ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary hover:bg-primary/90 py-3 glass-button h-16 px-10 rounded-2xl text-lg font-semibold bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 text-white border-0 shadow-2xl hover:shadow-cyan-500/50 card-hover-lift">
+                            <i class="fas fa-rocket text-xl"></i>
+                            <span>Launch Studio</span>
+                            <i class="fas fa-arrow-right text-sm"></i>
+                        </a>
+
+                        <a href="#features" class="inline-flex items-center gap-3 glass-morphism glass-hover rounded-full px-8 py-4 border border-emerald-500/30 neon-border card-hover-lift">
+                            <i class="fas fa-star text-emerald-400"></i>
+                            <span class="font-semibold">View Features</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Stats Cards -->
-                <div class="glass-card rounded-3xl border border-slate-700/40 p-12 max-w-6xl mx-auto">
-                    <h2 class="section-title">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Real-Time Analytics</span>
-                    </h2>
-                    
+                <!-- Enhanced Stats Cards with Advanced Features -->
+                <div class="glass-card rounded-3xl border border-slate-700/40 p-12 max-w-7xl mx-auto card-hover-lift">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="section-title mb-0">
+                            <i class="fas fa-chart-bar text-cyan-400"></i>
+                            <span>Real-Time Analytics Dashboard</span>
+                        </h2>
+                        <div class="flex items-center gap-2 text-sm text-slate-400">
+                            <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                            <span>Live Data</span>
+                        </div>
+                    </div>
+
                     <div class="analytics-grid">
-                        <div class="analytics-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer">
+                        <div class="analytics-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer card-hover-lift stagger-fade-in">
                             <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
-                            <div class="analytics-value" id="videosCreated">347</div>
+                            <div class="analytics-value gradient-text-animated" id="videosCreated">347</div>
                             <div class="analytics-label">Videos Created</div>
+                            <div class="mt-2 text-xs text-slate-500 flex items-center gap-1">
+                                <i class="fas fa-arrow-up text-emerald-400"></i>
+                                <span>+23% this week</span>
+                            </div>
                         </div>
-                        
-                        <div class="analytics-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer">
+
+                        <div class="analytics-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer card-hover-lift stagger-fade-in">
                             <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
-                            <div class="analytics-value" id="totalViews">2.4M</div>
+                            <div class="analytics-value gradient-text-animated" id="totalViews">2.4M</div>
                             <div class="analytics-label">Total Views</div>
+                            <div class="mt-2 text-xs text-slate-500 flex items-center gap-1">
+                                <i class="fas fa-eye text-blue-400"></i>
+                                <span>Across 15 platforms</span>
+                            </div>
                         </div>
-                        
-                        <div class="analytics-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer">
+
+                        <div class="analytics-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer card-hover-lift stagger-fade-in">
                             <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
-                            <div class="analytics-value" id="engagementRate">18.7%</div>
+                            <div class="analytics-value gradient-text-animated" id="engagementRate">18.7%</div>
                             <div class="analytics-label">Engagement Rate</div>
+                            <div class="mt-2 text-xs text-slate-500 flex items-center gap-1">
+                                <i class="fas fa-fire text-orange-400"></i>
+                                <span>Above industry avg</span>
+                            </div>
                         </div>
-                        
-                        <div class="analytics-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer">
+
+                        <div class="analytics-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer card-hover-lift stagger-fade-in">
                             <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
-                            <div class="analytics-value" id="revenue">$12.8K</div>
-                            <div class="analytics-label">Revenue</div>
+                            <div class="analytics-value gradient-text-animated" id="revenue">$12.8K</div>
+                            <div class="analytics-label">Revenue Generated</div>
+                            <div class="mt-2 text-xs text-slate-500 flex items-center gap-1">
+                                <i class="fas fa-dollar-sign text-emerald-400"></i>
+                                <span>$0.002/sec efficiency</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mini Charts Section -->
+                    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="glass-card rounded-xl border border-slate-700/30 p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium text-slate-300">AI Models Active</span>
+                                <span class="text-lg font-bold text-cyan-400">47/50</span>
+                            </div>
+                            <div class="w-full bg-slate-700/50 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-cyan-500 to-purple-500 h-2 rounded-full" style="width: 94%"></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-xl border border-slate-700/30 p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium text-slate-300">GPU Utilization</span>
+                                <span class="text-lg font-bold text-emerald-400">87%</span>
+                            </div>
+                            <div class="w-full bg-slate-700/50 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-emerald-500 to-cyan-500 h-2 rounded-full" style="width: 87%"></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card rounded-xl border border-slate-700/30 p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm font-medium text-slate-300">Queue Status</span>
+                                <span class="text-lg font-bold text-orange-400">12</span>
+                            </div>
+                            <div class="w-full bg-slate-700/50 rounded-full h-2">
+                                <div class="bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full" style="width: 40%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Trending Section -->
+                <!-- Enhanced Trending Section with Advanced Features -->
                 <div id="trending" class="trending-section">
-                    <div class="glass-card rounded-3xl border border-slate-700/40 p-6 pb-4">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="section-title mb-0">
-                                <i class="fas fa-fire"></i>
-                                <span>Trending Topics</span>
-                            </h2>
-                            
-                            <button id="refreshTrends" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 rounded-2xl text-sm glass-morphism glass-hover text-pink-200">
-                                <i class="fas fa-sync-alt"></i>
-                                <span>Refresh</span>
+                    <div class="glass-card rounded-3xl border border-slate-700/40 p-8 pb-6 card-hover-lift">
+                        <div class="flex items-center justify-between mb-8">
+                            <div>
+                                <h2 class="section-title mb-2">
+                                    <i class="fas fa-fire text-orange-400"></i>
+                                    <span>AI-Powered Trend Detection</span>
+                                </h2>
+                                <p class="text-slate-400 text-sm">Real-time analysis across 50+ platforms with viral potential scoring</p>
+                            </div>
+
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center gap-2 text-xs text-slate-500">
+                                    <div class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                                    <span>Live Scanning</span>
+                                </div>
+                                <button id="refreshTrends" class="inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 rounded-2xl text-sm glass-morphism glass-hover text-pink-200 card-hover-lift">
+                                    <i class="fas fa-sync-alt"></i>
+                                    <span>Refresh</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Trend Filters -->
+                        <div class="flex flex-wrap gap-3 mb-6">
+                            <button class="filter-btn active px-4 py-2 rounded-full text-sm font-medium bg-cyan-500/20 text-cyan-300 border border-cyan-500/30" data-filter="all">
+                                <i class="fas fa-globe mr-2"></i>All Topics
+                            </button>
+                            <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium glass-morphism text-slate-300 border border-slate-700/30 hover:border-cyan-500/30" data-filter="technology">
+                                <i class="fas fa-microchip mr-2"></i>Technology
+                            </button>
+                            <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium glass-morphism text-slate-300 border border-slate-700/30 hover:border-cyan-500/30" data-filter="entertainment">
+                                <i class="fas fa-film mr-2"></i>Entertainment
+                            </button>
+                            <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium glass-morphism text-slate-300 border border-slate-700/30 hover:border-cyan-500/30" data-filter="sports">
+                                <i class="fas fa-trophy mr-2"></i>Sports
+                            </button>
+                            <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium glass-morphism text-slate-300 border border-slate-700/30 hover:border-cyan-500/30" data-filter="science">
+                                <i class="fas fa-atom mr-2"></i>Science
                             </button>
                         </div>
-                        
+
                         <div class="trending-grid" id="trendingGrid">
                             <!-- Trending cards will be populated here by JavaScript -->
                         </div>
+
+                        <!-- Load More Button -->
+                        <div class="text-center mt-8">
+                            <button id="loadMoreTrends" class="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-morphism glass-hover border border-cyan-500/30 text-cyan-300 font-medium card-hover-lift">
+                                <i class="fas fa-plus"></i>
+                                <span>Load More Trends</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Advanced Settings -->
-                <div class="settings-section">
-                    <div class="settings-grid">
-                        <div class="settings-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer">
-                            <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
-                            <h3 class="settings-title">
-                                <i class="fas fa-cogs"></i>
-                                <span>Automation Settings</span>
-                            </h3>
-                            
-                            <div class="settings-content">
-                                <div class="form-group">
-                                    <label class="form-label">Auto-detect trending topics</label>
-                                    <select id="autoDetectFrequency" class="form-select">
-                                        <option value="1">Every hour</option>
-                                        <option value="6" selected>Every 6 hours</option>
-                                        <option value="12">Every 12 hours</option>
-                                        <option value="24">Once a day</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="form-label">Minimum trend score</label>
-                                    <input type="range" id="minTrendScore" class="form-input" min="30" max="90" value="60">
-                                    <div class="flex justify-between text-xs mt-1 text-slate-400">
-                                        <span>Low (30)</span>
-                                        <span id="scoreValue">Medium (60)</span>
-                                        <span>High (90)</span>
+                <!-- Enhanced Feature Showcase Section -->
+                <div id="features" class="settings-section">
+                    <div class="glass-card rounded-3xl border border-slate-700/40 p-8 card-hover-lift">
+                        <div class="text-center mb-8">
+                            <h2 class="section-title mb-4">
+                                <i class="fas fa-sparkles text-purple-400"></i>
+                                <span>Advanced AI Capabilities</span>
+                            </h2>
+                            <p class="text-slate-400 max-w-2xl mx-auto">Experience the future of content creation with our comprehensive suite of AI-powered features</p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- AI Models Showcase -->
+                            <div class="settings-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer card-hover-lift stagger-fade-in">
+                                <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
+                                <h3 class="settings-title">
+                                    <i class="fas fa-brain text-cyan-400"></i>
+                                    <span>50+ AI Models</span>
+                                </h3>
+
+                                <div class="settings-content">
+                                    <div class="grid grid-cols-2 gap-2 mb-4">
+                                        <div class="text-xs bg-slate-700/50 rounded px-2 py-1 text-center">Sora</div>
+                                        <div class="text-xs bg-slate-700/50 rounded px-2 py-1 text-center">Runway</div>
+                                        <div class="text-xs bg-slate-700/50 rounded px-2 py-1 text-center">Stable Diff</div>
+                                        <div class="text-xs bg-slate-700/50 rounded px-2 py-1 text-center">CogVideoX</div>
                                     </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label class="form-label">Auto-generate videos</label>
-                                    <select id="autoGenerateVideos" class="form-select">
-                                        <option value="none">Manual approval only</option>
-                                        <option value="top3" selected>Top 3 trends per day</option>
-                                        <option value="all">All trending topics</option>
-                                    </select>
+                                    <p class="text-xs text-slate-400">Intelligent model selection based on content type and quality requirements</p>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="settings-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer">
-                            <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
-                            <h3 class="settings-title">
-                                <i class="fas fa-share-alt"></i>
-                                <span>Social Media Integration</span>
-                            </h3>
-                            
-                            <div class="settings-content">
-                                <div class="form-group">
-                                    <label class="form-label">Auto-post to platforms</label>
-                                    <div class="mt-2 space-y-2">
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="autoPostYoutube" class="mr-2" checked>
-                                            <label for="autoPostYoutube">YouTube</label>
+
+                            <!-- Multi-Agent System -->
+                            <div class="settings-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer card-hover-lift stagger-fade-in">
+                                <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
+                                <h3 class="settings-title">
+                                    <i class="fas fa-users text-purple-400"></i>
+                                    <span>Multi-Agent AI</span>
+                                </h3>
+
+                                <div class="settings-content">
+                                    <div class="space-y-2 mb-4">
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                                            <span>Director Agent</span>
                                         </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="autoPostTiktok" class="mr-2" checked>
-                                            <label for="autoPostTiktok">TikTok</label>
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                                            <span>Editor Agent</span>
                                         </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="autoPostInstagram" class="mr-2" checked>
-                                            <label for="autoPostInstagram">Instagram</label>
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <div class="w-2 h-2 bg-orange-500 rounded-full"></div>
+                                            <span>Marketer Agent</span>
                                         </div>
-                                        <div class="flex items-center">
-                                            <input type="checkbox" id="autoPostTwitter" class="mr-2">
-                                            <label for="autoPostTwitter">Twitter</label>
+                                    </div>
+                                    <p class="text-xs text-slate-400">Collaborative AI agents work together for Hollywood-level production</p>
+                                </div>
+                            </div>
+
+                            <!-- Quality Control -->
+                            <div class="settings-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer card-hover-lift stagger-fade-in">
+                                <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
+                                <h3 class="settings-title">
+                                    <i class="fas fa-shield-alt text-emerald-400"></i>
+                                    <span>Quality Assurance</span>
+                                </h3>
+
+                                <div class="settings-content">
+                                    <div class="space-y-2 mb-4">
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span>Technical Check</span>
+                                            <i class="fas fa-check text-emerald-400"></i>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span>Content Safety</span>
+                                            <i class="fas fa-check text-emerald-400"></i>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span>Deepfake Detection</span>
+                                            <i class="fas fa-check text-emerald-400"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-400">Automated quality checks ensure broadcast-ready content</p>
+                                </div>
+                            </div>
+
+                            <!-- Automation Settings -->
+                            <div class="settings-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer card-hover-lift stagger-fade-in">
+                                <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
+                                <h3 class="settings-title">
+                                    <i class="fas fa-cogs text-orange-400"></i>
+                                    <span>Smart Automation</span>
+                                </h3>
+
+                                <div class="settings-content">
+                                    <div class="form-group">
+                                        <label class="form-label text-xs">Auto-detect frequency</label>
+                                        <select id="autoDetectFrequency" class="form-select text-sm">
+                                            <option value="1">Every hour</option>
+                                            <option value="6" selected>Every 6 hours</option>
+                                            <option value="12">Every 12 hours</option>
+                                            <option value="24">Once a day</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label text-xs">Trend score threshold</label>
+                                        <input type="range" id="minTrendScore" class="form-input" min="30" max="90" value="60">
+                                        <div class="flex justify-between text-xs mt-1 text-slate-400">
+                                            <span>30</span>
+                                            <span id="scoreValue">60</span>
+                                            <span>90</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="settings-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer">
-                            <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
-                            <h3 class="settings-title">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <span>Deployment</span>
-                            </h3>
-                            
-                            <div class="settings-content">
-                                <div class="form-group">
-                                    <label class="form-label">Deploy to</label>
-                                    <select id="deployTarget" class="form-select">
-                                        <option value="aws" selected>Amazon AWS</option>
-                                        <option value="gcp">Google Cloud</option>
-                                        <option value="azure">Microsoft Azure</option>
-                                    </select>
+
+                            <!-- Social Media Integration -->
+                            <div class="settings-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer card-hover-lift stagger-fade-in">
+                                <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
+                                <h3 class="settings-title">
+                                    <i class="fas fa-share-alt text-pink-400"></i>
+                                    <span>Multi-Platform</span>
+                                </h3>
+
+                                <div class="settings-content">
+                                    <div class="grid grid-cols-2 gap-2 mb-4">
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" id="autoPostYoutube" class="w-4 h-4" checked>
+                                            <label for="autoPostYoutube" class="text-xs">YouTube</label>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" id="autoPostTiktok" class="w-4 h-4" checked>
+                                            <label for="autoPostTiktok" class="text-xs">TikTok</label>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" id="autoPostInstagram" class="w-4 h-4" checked>
+                                            <label for="autoPostInstagram" class="text-xs">Instagram</label>
+                                        </div>
+                                        <div class="flex items-center gap-2 text-sm">
+                                            <input type="checkbox" id="autoPostTwitter" class="w-4 h-4">
+                                            <label for="autoPostTwitter" class="text-xs">Twitter</label>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-400">Automated cross-platform publishing</p>
                                 </div>
-                                
-                                <div class="deploy-status status-online">
-                                    System is online and operational
+                            </div>
+
+                            <!-- Enterprise Features -->
+                            <div class="settings-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer card-hover-lift stagger-fade-in">
+                                <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
+                                <h3 class="settings-title">
+                                    <i class="fas fa-building text-indigo-400"></i>
+                                    <span>Enterprise Suite</span>
+                                </h3>
+
+                                <div class="settings-content">
+                                    <div class="space-y-2 mb-4">
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span>Billing Engine</span>
+                                            <i class="fas fa-check text-emerald-400"></i>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span>Compliance</span>
+                                            <i class="fas fa-check text-emerald-400"></i>
+                                        </div>
+                                        <div class="flex items-center justify-between text-sm">
+                                            <span>Multi-Tenant</span>
+                                            <i class="fas fa-check text-emerald-400"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-400">GDPR compliant, secure, scalable</p>
                                 </div>
                             </div>
                         </div>
@@ -834,18 +1241,92 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Update score value display
+            // Enhanced UI Interactions
             const scoreSlider = document.getElementById('minTrendScore');
             const scoreValue = document.getElementById('scoreValue');
-            
+
             scoreSlider.addEventListener('input', function() {
                 const value = parseInt(this.value);
                 let scoreText = 'Medium';
-                
+
                 if (value < 40) scoreText = 'Low';
                 else if (value > 80) scoreText = 'High';
-                
+
                 scoreValue.textContent = `${scoreText} (${value})`;
+            });
+
+            // Filter functionality for trending topics
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active', 'bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/30'));
+                    filterButtons.forEach(btn => btn.classList.add('glass-morphism', 'text-slate-300', 'border-slate-700/30'));
+
+                    // Add active class to clicked button
+                    this.classList.add('active', 'bg-cyan-500/20', 'text-cyan-300', 'border-cyan-500/30');
+                    this.classList.remove('glass-morphism', 'text-slate-300', 'border-slate-700/30');
+
+                    const filter = this.getAttribute('data-filter');
+                    filterTrendingTopics(filter);
+                });
+            });
+
+            function filterTrendingTopics(category) {
+                const cards = document.querySelectorAll('.trending-card');
+                cards.forEach(card => {
+                    if (category === 'all') {
+                        card.style.display = 'block';
+                        card.classList.add('stagger-fade-in');
+                    } else {
+                        const cardCategory = card.querySelector('.trending-meta').textContent.toLowerCase();
+                        if (cardCategory.includes(category)) {
+                            card.style.display = 'block';
+                            card.classList.add('stagger-fade-in');
+                        } else {
+                            card.style.display = 'none';
+                            card.classList.remove('stagger-fade-in');
+                        }
+                    }
+                });
+            }
+
+            // Load more trends functionality
+            document.getElementById('loadMoreTrends').addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                this.disabled = true;
+
+                setTimeout(() => {
+                    // Add more mock trends
+                    const additionalTrends = [
+                        {
+                            id: 't7',
+                            title: 'Sustainable Fashion Revolution',
+                            score: 71,
+                            category: 'Lifestyle',
+                            source: 'Instagram',
+                            timestamp: '6 hours ago'
+                        },
+                        {
+                            id: 't8',
+                            title: 'Cryptocurrency Market Analysis',
+                            score: 85,
+                            category: 'Finance',
+                            source: 'Twitter',
+                            timestamp: '4 hours ago'
+                        }
+                    ];
+
+                    const trendingGrid = document.getElementById('trendingGrid');
+                    additionalTrends.forEach(trend => {
+                        const card = createTrendingCard(trend);
+                        trendingGrid.appendChild(card);
+                    });
+
+                    this.innerHTML = '<i class="fas fa-plus"></i> Load More Trends';
+                    this.disabled = false;
+                    showNotification('More trends loaded', 'Additional trending topics have been added');
+                }, 2000);
             });
             
             // Initialize trending topics
@@ -925,89 +1406,115 @@
         function renderTrendingTopics(topics) {
             const trendingGrid = document.getElementById('trendingGrid');
             trendingGrid.innerHTML = '';
-            
-            topics.forEach(topic => {
-                const card = document.createElement('div');
-                card.className = 'trending-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer';
-                
-                let scoreColor = 'rgba(6, 182, 212, 0.2)';
-                let scoreTextColor = '#06b6d4';
-                
-                if (topic.score > 80) {
-                    scoreColor = 'rgba(16, 185, 129, 0.2)';
-                    scoreTextColor = '#10b981';
-                } else if (topic.score < 70) {
-                    scoreColor = 'rgba(236, 72, 153, 0.2)';
-                    scoreTextColor = '#ec4899';
-                }
-                
-                card.innerHTML = `
-                    <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
-                    <div class="trending-header">
-                        <h3 class="trending-topic">${topic.title}</h3>
-                        <div class="trending-score" style="background: ${scoreColor}; color: ${scoreTextColor};">
-                            ${topic.score} Score
-                        </div>
-                    </div>
-                    <div class="trending-meta">
-                        <div><i class="fas fa-tag"></i> ${topic.category}</div>
-                        <div><i class="fas fa-globe"></i> ${topic.source}</div>
-                    </div>
-                    <div class="trending-meta">
-                        <div><i class="fas fa-clock"></i> ${topic.timestamp}</div>
-                    </div>
-                    <div class="trending-actions">
-                        <button class="btn-approve" data-id="${topic.id}">
-                            <i class="fas fa-check"></i> Generate Video
-                        </button>
-                        <button class="btn-reject" data-id="${topic.id}">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                `;
-                
+
+            topics.forEach((topic, index) => {
+                const card = createTrendingCard(topic, index);
                 trendingGrid.appendChild(card);
             });
-            
+
             // Add event listeners to buttons
             document.querySelectorAll('.btn-approve').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const id = this.getAttribute('data-id');
                     const topic = topics.find(t => t.id === id);
-                    
+
                     this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
                     this.disabled = true;
-                    
+
                     // Simulate video generation process
                     setTimeout(() => {
                         this.innerHTML = '<i class="fas fa-check"></i> Video Created!';
                         this.style.background = 'linear-gradient(to right, #10b981, #059669)';
-                        
+
                         // Update stats
                         const videosCreated = document.getElementById('videosCreated');
                         videosCreated.textContent = (parseInt(videosCreated.textContent) + 1).toString();
-                        
+
                         showNotification('Video Generated', `"${topic.title}" has been created and added to your dashboard`);
                     }, 3000);
                 });
             });
-            
+
             document.querySelectorAll('.btn-reject').forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.stopPropagation();
                     const id = this.getAttribute('data-id');
                     const card = this.closest('.trending-card');
-                    
+
                     // Fade out and remove
                     card.style.opacity = '0';
                     card.style.transform = 'scale(0.9)';
-                    
+
                     setTimeout(() => {
                         card.remove();
                     }, 300);
                 });
             });
+        }
+
+        function createTrendingCard(topic, index = 0) {
+            const card = document.createElement('div');
+            card.className = 'trending-card glass-card rounded-3xl border border-slate-700/40 group cursor-pointer card-hover-lift';
+            card.style.animationDelay = `${index * 0.1}s`;
+
+            let scoreColor = 'rgba(6, 182, 212, 0.2)';
+            let scoreTextColor = '#06b6d4';
+            let trendIcon = 'fas fa-chart-line';
+            let trendColor = 'text-cyan-400';
+
+            if (topic.score > 80) {
+                scoreColor = 'rgba(16, 185, 129, 0.2)';
+                scoreTextColor = '#10b981';
+                trendIcon = 'fas fa-rocket';
+                trendColor = 'text-emerald-400';
+            } else if (topic.score < 70) {
+                scoreColor = 'rgba(236, 72, 153, 0.2)';
+                scoreTextColor = '#ec4899';
+                trendIcon = 'fas fa-fire';
+                trendColor = 'text-orange-400';
+            }
+
+            card.innerHTML = `
+                <div class="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-purple-500/10 to-pink-500/10 group-hover:from-cyan-500/20 group-hover:via-purple-500/20 group-hover:to-pink-500/20 transition-all duration-500"></div>
+                <div class="trending-header">
+                    <div class="flex items-start gap-3">
+                        <i class="${trendIcon} ${trendColor} text-xl mt-1"></i>
+                        <div class="flex-1">
+                            <h3 class="trending-topic">${topic.title}</h3>
+                            <div class="flex items-center gap-2 mt-2">
+                                <div class="trending-score" style="background: ${scoreColor}; color: ${scoreTextColor};">
+                                    ${topic.score} Score
+                                </div>
+                                <div class="text-xs text-slate-400 bg-slate-700/50 px-2 py-1 rounded-full">
+                                    <i class="fas fa-eye mr-1"></i>High Potential
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="trending-meta">
+                    <div><i class="fas fa-tag"></i> ${topic.category}</div>
+                    <div><i class="fas fa-globe"></i> ${topic.source}</div>
+                </div>
+                <div class="trending-meta">
+                    <div><i class="fas fa-clock"></i> ${topic.timestamp}</div>
+                    <div class="flex items-center gap-1">
+                        <i class="fas fa-users text-slate-400"></i>
+                        <span class="text-xs text-slate-400">${Math.floor(Math.random() * 50) + 10}K discussions</span>
+                    </div>
+                </div>
+                <div class="trending-actions">
+                    <button class="btn-approve" data-id="${topic.id}">
+                        <i class="fas fa-magic"></i> Generate Video
+                    </button>
+                    <button class="btn-reject" data-id="${topic.id}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+
+            return card;
         }
         
         function showNotification(title, message) {
@@ -1025,36 +1532,145 @@
             }, 5000);
         }
         
-        // Auto-connect to backend services
+        // Enhanced Backend Integration and Real-time Features
         async function initializeBackend() {
             try {
-                // Connect to trend detection service
-                console.log('Connecting to trend detection service...');
-                
-                // Monitor real-time statistics
+                console.log('Initializing CINEMATRIX AI 5.0...');
+
+                // Initialize stagger animations
+                const observerOptions = {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -50px 0px'
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('stagger-fade-in');
+                        }
+                    });
+                }, observerOptions);
+
+                // Observe all cards for stagger animation
+                document.querySelectorAll('.analytics-card, .settings-card, .trending-card').forEach(card => {
+                    observer.observe(card);
+                });
+
+                // Enhanced real-time statistics with more realistic updates
                 setInterval(() => {
-                    // Simulate real-time updates to stats
-                    const totalViews = document.getElementById('totalViews');
-                    const currentViews = parseFloat(totalViews.textContent.replace('M', ''));
-                    const newViews = (currentViews + Math.random() * 0.1).toFixed(1);
-                    totalViews.textContent = newViews + 'M';
-                    
-                    const engagementRate = document.getElementById('engagementRate');
-                    const currentRate = parseFloat(engagementRate.textContent.replace('%', ''));
-                    const newRate = (currentRate + (Math.random() - 0.5) * 0.3).toFixed(1);
-                    engagementRate.textContent = newRate + '%';
-                    
-                    const revenue = document.getElementById('revenue');
-                    const currentRevenue = parseFloat(revenue.textContent.replace('$', '').replace('K', ''));
-                    const newRevenue = (currentRevenue + Math.random() * 0.2).toFixed(1);
-                    revenue.textContent = '$' + newRevenue + 'K';
-                }, 10000);
+                    updateLiveStats();
+                }, 8000);
+
+                // Simulate AI model status updates
+                setInterval(() => {
+                    updateModelStatus();
+                }, 15000);
+
+                // Add scroll-based animations
+                let scrollTimeout;
+                window.addEventListener('scroll', () => {
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(() => {
+                        const scrolled = window.pageYOffset;
+                        const rate = scrolled * -0.5;
+
+                        // Parallax effect for background elements
+                        document.querySelectorAll('.bg-glow').forEach((glow, index) => {
+                            const speed = (index + 1) * 0.1;
+                            glow.style.transform = `translateY(${rate * speed}px)`;
+                        });
+                    }, 16);
+                });
+
+                console.log('CINEMATRIX AI 5.0 initialized successfully');
             } catch (error) {
                 console.error('Backend initialization failed:', error);
             }
         }
-        
-        // Start backend connection
+
+        function updateLiveStats() {
+            // Videos created - gradual increase
+            const videosCreated = document.getElementById('videosCreated');
+            const currentVideos = parseInt(videosCreated.textContent);
+            const increment = Math.random() > 0.7 ? 1 : 0;
+            videosCreated.textContent = (currentVideos + increment).toString();
+
+            // Total views - more dynamic
+            const totalViews = document.getElementById('totalViews');
+            const currentViews = parseFloat(totalViews.textContent.replace('M', ''));
+            const viewIncrement = (Math.random() * 0.05) + 0.01;
+            const newViews = (currentViews + viewIncrement).toFixed(1);
+            totalViews.textContent = newViews + 'M';
+
+            // Engagement rate - subtle fluctuations
+            const engagementRate = document.getElementById('engagementRate');
+            const currentRate = parseFloat(engagementRate.textContent.replace('%', ''));
+            const rateChange = (Math.random() - 0.5) * 0.4;
+            const newRate = Math.max(15, Math.min(25, currentRate + rateChange)).toFixed(1);
+            engagementRate.textContent = newRate + '%';
+
+            // Revenue - steady growth
+            const revenue = document.getElementById('revenue');
+            const currentRevenue = parseFloat(revenue.textContent.replace('$', '').replace('K', ''));
+            const revenueIncrement = Math.random() * 0.1;
+            const newRevenue = (currentRevenue + revenueIncrement).toFixed(1);
+            revenue.textContent = '$' + newRevenue + 'K';
+        }
+
+        function updateModelStatus() {
+            // Simulate AI model availability changes
+            const modelsActive = document.querySelector('.analytics-card:nth-child(1) .analytics-value');
+            if (modelsActive) {
+                const currentModels = parseInt(modelsActive.textContent.split('/')[0]);
+                const newModels = Math.max(45, Math.min(50, currentModels + (Math.random() > 0.8 ? (Math.random() > 0.5 ? 1 : -1) : 0)));
+                modelsActive.textContent = newModels + '/50';
+            }
+        }
+
+        // Enhanced notification system
+        function showAdvancedNotification(title, message, type = 'success', duration = 5000) {
+            const notification = document.getElementById('notification');
+            const titleElement = notification.querySelector('.notification-title');
+            const messageElement = notification.querySelector('.notification-message');
+            const iconElement = notification.querySelector('.notification-icon');
+
+            titleElement.textContent = title;
+            messageElement.textContent = message;
+
+            // Update icon and colors based on type
+            notification.className = `notification notification-${type}`;
+            iconElement.className = 'notification-icon';
+
+            switch(type) {
+                case 'success':
+                    iconElement.classList.add('fas', 'fa-check-circle');
+                    notification.classList.add('notification-success');
+                    break;
+                case 'warning':
+                    iconElement.classList.add('fas', 'fa-exclamation-triangle');
+                    notification.style.borderLeftColor = '#f59e0b';
+                    iconElement.style.color = '#f59e0b';
+                    break;
+                case 'error':
+                    iconElement.classList.add('fas', 'fa-times-circle');
+                    notification.style.borderLeftColor = '#ef4444';
+                    iconElement.style.color = '#ef4444';
+                    break;
+                case 'info':
+                    iconElement.classList.add('fas', 'fa-info-circle');
+                    notification.style.borderLeftColor = '#06b6d4';
+                    iconElement.style.color = '#06b6d4';
+                    break;
+            }
+
+            notification.classList.add('show');
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, duration);
+        }
+
+        // Start enhanced backend connection
         initializeBackend();
     </script>
 </body>

@@ -55,12 +55,17 @@ from redis import Redis
 from redis.exceptions import RedisError
 
 # Import database dependencies
-from app.api.deps import get_current_active_user, get_current_superuser, get_db
-from app.core.config import settings
+from backend.app.api.v1.users import get_current_user as get_current_active_user
+from backend.app.api.v1.auth import register_user, login_for_access_token, refresh_access_token
+from backend.db.database import get_db
+from backend.core.config import settings
 from app.core.security import get_tenant_from_token
 from app.db.models.tenant import Tenant
 from app.db.models.user import User, UserRole
 from app.db.models.video import Video
+from app.db.models.ai_model import (
+    AudioTrackType, TextOverlayPosition, SceneTransitionType
+)
 from app.utils.rate_limiter import get_remote_address
 
 # Import AI engine dependencies
@@ -215,32 +220,67 @@ class WebhookConfig(BaseModel):
         }
 
 
+class AudioOptions(BaseModel):
+    """Audio generation options"""
+    audio_track_type: AudioTrackType = Field(
+        AudioTrackType.NONE,
+        description="Type of audio to add to the video"
+    )
+    audio_prompt: Optional[str] = Field(None, description="Prompt for generating audio")
+    background_music_url: Optional[str] = Field(None, description="URL to a background music file")
+    voiceover_text: Optional[str] = Field(None, description="Text for voiceover narration")
+    voice_id: Optional[str] = Field(None, description="Voice ID for text-to-speech")
+
+
+class TextOverlayOptions(BaseModel):
+    """Text overlay options"""
+    content: str = Field(..., description="Text content to overlay on the video")
+    position: TextOverlayPosition = Field(TextOverlayPosition.BOTTOM, description="Position of the text")
+    color: str = Field("#FFFFFF", description="Text color in hex format")
+    font: str = Field("Arial", description="Font family")
+    size: int = Field(24, description="Font size")
+
+
+class SceneCompositionOptions(BaseModel):
+    """Scene composition options"""
+    scene_count: int = Field(1, ge=1, le=10, description="Number of scenes in the video")
+    scene_prompts: Optional[Dict[str, str]] = Field(None, description="Prompts for each scene")
+    scene_transitions: SceneTransitionType = Field(
+        SceneTransitionType.CUT,
+        description="Transition type between scenes"
+    )
+    storyboard_data: Optional[Dict[str, Any]] = Field(None, description="Detailed storyboard data")
+
+
 class GenerationOptions(BaseModel):
     """Advanced generation options"""
     negative_prompt: Optional[str] = Field(
-        None, 
+        None,
         description="Things to exclude from generation"
     )
     seed: Optional[int] = Field(
-        None, 
+        None,
         description="Random seed for reproducible generation"
     )
     guidance_scale: Optional[float] = Field(
-        None, 
-        ge=1.0, 
-        le=20.0, 
+        None,
+        ge=1.0,
+        le=20.0,
         description="How closely to follow the prompt"
     )
     motion_strength: Optional[float] = Field(
-        None, 
-        ge=0.0, 
-        le=1.0, 
+        None,
+        ge=0.0,
+        le=1.0,
         description="Strength of motion in the video"
     )
     custom_parameters: Optional[Dict[str, Any]] = Field(
         None,
         description="Model-specific custom parameters"
     )
+    audio_options: Optional[AudioOptions] = None
+    text_overlay_options: Optional[TextOverlayOptions] = None
+    scene_composition_options: Optional[SceneCompositionOptions] = None
     
     class Config:
         schema_extra = {
@@ -351,6 +391,14 @@ class VideoGenerationRequest(BaseModel):
         if value % 8 != 0:
             raise ValueError(f"Dimensions must be multiples of 8. Got {value}")
         return value
+
+    @validator('fps')
+    def check_fps(cls, value, values):
+        """Validate that FPS is appropriate for the selected quality tier"""
+        quality_tier = values.get('quality_tier')
+        if quality_tier == VideoQualityTier.ECONOMY and value > 30:
+            raise ValueError("Economy quality tier only supports up to 30 FPS")
+        return value
     
     class Config:
         schema_extra = {
@@ -368,7 +416,25 @@ class VideoGenerationRequest(BaseModel):
                 "project_id": "proj_12345",
                 "generation_options": {
                     "negative_prompt": "blurry, low quality, distorted faces",
-                    "seed": 42
+                    "seed": 42,
+                    "audio_options": {
+                        "audio_track_type": "BACKGROUND_MUSIC",
+                        "audio_prompt": "epic cinematic score"
+                    },
+                    "text_overlay_options": {
+                        "content": "Hello, World!",
+                        "position": "BOTTOM_CENTER",
+                        "color": "#FFFFFF",
+                        "size": 36
+                    },
+                    "scene_composition_options": {
+                        "scene_count": 2,
+                        "scene_prompts": {
+                            "scene1": "A spaceship landing on Mars",
+                            "scene2": "Astronauts exploring the Martian landscape"
+                        },
+                        "scene_transitions": "FADE"
+                    }
                 },
                 "webhook": {
                     "url": "https://example.com/webhook/video-complete",
@@ -548,6 +614,16 @@ def handle_generation_error(error: Exception) -> HTTPException:
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"No suitable model available: {error_str}"
         )
+    elif isinstance(error, httpx.TimeoutException):
+        return HTTPException(
+            status_code=status.HTTP_504_GATEWAY_TIMEOUT,
+            detail=f"AI model request timed out: {error_str}"
+        )
+    elif isinstance(error, RedisError):
+        return HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Redis connection error: {error_str}"
+        )
     else:
         return HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -648,7 +724,8 @@ async def generate_video_task(
     webhook_config: Optional[WebhookConfig],
     save_to_gallery: bool,
     project_id: Optional[str],
-    db: Session
+    db: Session,
+    generation_options: Optional[GenerationOptions] = None
 ) -> None:
     """Background task for video generation"""
     logger.info(f"Starting video generation task {request_id} for user {user_id}")
@@ -1046,6 +1123,14 @@ async def generate_video(
                 # Add any custom parameters
                 if request.generation_options.custom_parameters:
                     orchestrator_request.metadata.update(request.generation_options.custom_parameters)
+                
+                # Add new detailed options to metadata
+                if request.generation_options.audio_options:
+                    orchestrator_request.metadata["audio"] = request.generation_options.audio_options.dict()
+                if request.generation_options.text_overlay_options:
+                    orchestrator_request.metadata["text_overlay"] = request.generation_options.text_overlay_options.dict()
+                if request.generation_options.scene_composition_options:
+                    orchestrator_request.metadata["scene_composition"] = request.generation_options.scene_composition_options.dict()
             
             # Start background generation task
             background_tasks.add_task(
@@ -1057,7 +1142,8 @@ async def generate_video(
                 webhook_config=request.webhook,
                 save_to_gallery=request.save_to_gallery,
                 project_id=request.project_id,
-                db=db
+                db=db,
+                generation_options=request.generation_options
             )
             
             # Get cost estimation

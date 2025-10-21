@@ -1,0 +1,350 @@
+/* Workflow Builder Styles */
+.workflow-builder {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.workflow-main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.workflow-canvas-area {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.canvas-drop-zone {
+  flex: 1;
+  position: relative;
+  border: 2px dashed rgba(6, 182, 212, 0.3);
+  border-radius: 8px;
+  margin: 20px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.canvas-drop-zone:hover {
+  border-color: rgba(6, 182, 212, 0.6);
+  background: rgba(6, 182, 212, 0.05);
+}
+
+.canvas-drop-zone.drag-over {
+  border-color: #06b6d4;
+  background: rgba(6, 182, 212, 0.1);
+  transform: scale(1.01);
+}
+
+.workflow-sidebar {
+  width: 300px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  border-left: 1px solid rgba(148, 163, 184, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Execution Panel */
+.execution-panel {
+  flex: 1;
+  padding: 20px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.execution-panel h3 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.execution-panel h3::before {
+  content: '⚡';
+  font-size: 14px;
+}
+
+.logs-container {
+  height: 300px;
+  overflow-y: auto;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.log-entry {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.log-timestamp {
+  color: #64748b;
+  font-family: 'Monaco', 'Menlo', monospace;
+  flex-shrink: 0;
+}
+
+.log-message {
+  color: #e2e8f0;
+  word-break: break-word;
+}
+
+/* Workflow Info */
+.workflow-info {
+  padding: 20px;
+}
+
+.workflow-info h3 {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.workflow-info h3::before {
+  content: '📊';
+  font-size: 14px;
+}
+
+.info-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 6px;
+}
+
+.stat-label {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.stat-value {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.stat-value.executing {
+  color: #06b6d4;
+  animation: pulse 2s infinite;
+}
+
+.stat-value.idle {
+  color: #64748b;
+}
+
+/* Scrollbar Styling */
+.logs-container::-webkit-scrollbar,
+.workflow-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.logs-container::-webkit-scrollbar-track,
+.workflow-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.logs-container::-webkit-scrollbar-thumb,
+.workflow-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.3);
+  border-radius: 3px;
+}
+
+.logs-container::-webkit-scrollbar-thumb:hover,
+.workflow-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .workflow-sidebar {
+    width: 250px;
+  }
+
+  .canvas-drop-zone {
+    margin: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .workflow-main {
+    flex-direction: column;
+  }
+
+  .workflow-sidebar {
+    width: 100%;
+    height: 200px;
+    border-left: none;
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    flex-direction: row;
+  }
+
+  .execution-panel,
+  .workflow-info {
+    flex: 1;
+    border-bottom: none;
+    border-right: 1px solid rgba(148, 163, 184, 0.1);
+  }
+
+  .workflow-info {
+    border-right: none;
+  }
+
+  .logs-container {
+    height: 150px;
+  }
+
+  .canvas-drop-zone {
+    margin: 10px;
+    min-height: 400px;
+  }
+}
+
+/* Animation Classes */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.workflow-fade-in {
+  animation: workflowFadeIn 0.5s ease-out;
+}
+
+@keyframes workflowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Loading States */
+.workflow-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(6, 182, 212, 0.3);
+  border-top: 3px solid #06b6d4;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Error States */
+.workflow-error {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3);
+  z-index: 1000;
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Success States */
+.workflow-success {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(16, 185, 129, 0.9);
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+  z-index: 1000;
+  animation: slideInRight 0.3s ease-out;
+}
+
+/* Dark Theme Enhancements */
+.workflow-builder {
+  color: #e2e8f0;
+}
+
+.workflow-builder * {
+  box-sizing: border-box;
+}
+
+/* Focus States for Accessibility */
+.workflow-builder button:focus,
+.workflow-builder input:focus,
+.workflow-builder select:focus {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
+}
+
+/* Print Styles (for workflow documentation) */
+@media print {
+  .workflow-builder {
+    background: white !important;
+    color: black !important;
+  }
+
+  .workflow-sidebar,
+  .workflow-toolbar {
+    display: none !important;
+  }
+
+  .canvas-drop-zone {
+    border: none !important;
+    margin: 0 !important;
+  }
+}
