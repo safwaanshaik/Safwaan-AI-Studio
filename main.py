@@ -107,7 +107,15 @@ async def root():
         "status": "active",
         "features": features_status,
         "full_features_loaded": FULL_FEATURES,
-        "environment": os.getenv("RAILWAY_ENVIRONMENT", "development")
+        "environment": os.getenv("RAILWAY_ENVIRONMENT", "development"),
+        "endpoints": {
+            "health": "/health",
+            "generate_video": "POST /generate-video",
+            "get_video": "GET /video/{id}",
+            "trending_topics": "GET /trending-topics",
+            "discover_trends": "POST /discover-trends"
+        },
+        "ready_for_use": True
     }
 
 @app.get("/health")
